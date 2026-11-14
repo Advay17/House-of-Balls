@@ -1,5 +1,5 @@
-# Dodgeball
-Dodgeball is a quick minigame made by Kavin Muralikrishnan for Hack Club Haven DC.
+# House of Balls
+House of Balls is a quick minigame made by Kavin Muralikrishnan for Hack Club Haven DC.
 
 ## Installation
 TODO
