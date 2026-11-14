@@ -24,11 +24,11 @@ func ready_process() -> void:
 	
 func start_process() -> void:
 	await get_tree().create_timer(1).timeout
-	main_text.visible = false
+	if main_text.text == "Start!":
+		main_text.visible = false
 
 func set_health(team:int, health:int) -> void:
 	for i in range(health+1,4):
-		print("%s Hearts/Health %s" % ["Red" if team==Team.Red else "Blue", i])
 		(get_node("%s Hearts/Health %s" % ["Red" if team==Team.Red else "Blue", i]) as TextureRect).texture = EMPTY_HEART
 
 func end_game(team:int) -> void:

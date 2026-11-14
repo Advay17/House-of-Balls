@@ -24,6 +24,10 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const PARRY_SPEED = 1000
 
+var inv = false
+
+#signal update_velocity(velocity:Vector2, torque:float)
+
 signal successful_parry
 signal parry_ended
 signal hit(team:Team)
@@ -50,10 +54,11 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func _process(delta: float) -> void:
-	for i in get_slide_collision_count():
-		var collider = get_slide_collision(i).get_collider()
-		if collider.get_class() == "RigidBody2D":
-			hit.emit(TEAM)
+	pass
+	#for i in get_slide_collision_count():
+		#var collider = get_slide_collision(i).get_collider()
+		#if collider.get_class() == "RigidBody2D":
+			#hit.emit(TEAM)
 
 func _input(event):
 	if event.is_action_pressed("%s_parry" % get_team_string()):
@@ -70,11 +75,15 @@ func parry():
 	var overlapping_bodies = parry_box.get_overlapping_bodies()
 	if not overlapping_bodies.is_empty():
 		successful_parry.emit()
-		#get_tree().paused=true
 		for body:RigidBody2D in overlapping_bodies:
 			var char2bod = get_angle_to(body.position)
 			body.linear_velocity = Vector2(PARRY_SPEED * cos(char2bod), PARRY_SPEED * sin(char2bod))
 			body.apply_torque_impulse(2000 * sign(cos(char2bod)))
+			
+			inv=true
+			await get_tree().create_timer(0.2).timeout
+			inv=false
+		get_tree().paused=true
 	else:
 		parry_on_cooldown = true
 		await get_tree().create_timer(1).timeout
@@ -83,6 +92,13 @@ func parry():
 
 
 func _on_parry_flash_timer_timeout() -> void:
-	#get_tree().paused = false
+	if get_parent().paused == false:
+		get_tree().paused = false
 	sprite.material.set_shader_parameter("state", CharacterState.Cooldown if parry_on_cooldown else CharacterState.Normal)
 	parry_ended.emit()
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if not inv:
+		hit.emit(TEAM)
+	pass # Replace with function body.
