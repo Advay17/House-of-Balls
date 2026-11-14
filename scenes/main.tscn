@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://dfmi814reb7cg"]
+
+[ext_resource type="Texture2D" uid="uid://da4q0drtg5kr6" path="res://assets/field.png" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://d2ge8e6rnqawv" path="res://scripts/main.gd" id="1_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://ckwjdcfmiahly" path="res://scenes/character.tscn" id="2_sugp2"]
+[ext_resource type="PackedScene" uid="uid://ddgju88c8qwgf" path="res://scenes/ball.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://uqnaq2kr7xwg" path="res://scenes/ui.tscn" id="4_jyhfs"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_0wfyh"]
+polygon = PackedVector2Array(576, 324, 576, 140, -576, 140, -576, 324)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_sugp2"]
+distance = -472.05
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_tefeu"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_tbgi4"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jyhfs"]
+normal = Vector2(-1, 0)
+distance = -1155.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0wfyh"]
+normal = Vector2(1, 0)
+distance = 750.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_rxxvl"]
+normal = Vector2(-1, 0)
+distance = -400.0
+
+[node name="Main" type="Node2D" unique_id=298377960]
+script = ExtResource("1_tbgi4")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=277826799]
+position = Vector2(579, 326.5)
+scale = Vector2(1.0052084, 1.0077161)
+texture = ExtResource("1_0wfyh")
+
+[node name="Red" parent="." unique_id=1626612688 instance=ExtResource("2_sugp2")]
+position = Vector2(219, 411.00003)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Blue" parent="." unique_id=235153329 instance=ExtResource("2_sugp2")]
+position = Vector2(931, 420)
+collision_layer = 5
+collision_mask = 5
+TEAM = 1
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=1280133882]
+energy = 0.0
+shadow_enabled = true
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=719154614]
+position = Vector2(579, 326.5)
+scale = Vector2(1.0052084, 1.0077161)
+occluder = SubResource("OccluderPolygon2D_0wfyh")
+
+[node name="Borders" type="Node" parent="." unique_id=2066895597]
+
+[node name="Floor" type="StaticBody2D" parent="Borders" unique_id=115561389]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Floor" unique_id=888781491]
+shape = SubResource("WorldBoundaryShape2D_sugp2")
+
+[node name="Roof" type="StaticBody2D" parent="Borders" unique_id=1191319694]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Roof" unique_id=1664083764]
+shape = SubResource("WorldBoundaryShape2D_tefeu")
+
+[node name="Right Border" type="StaticBody2D" parent="Borders" unique_id=970539837]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Right Border" unique_id=1382323858]
+shape = SubResource("WorldBoundaryShape2D_tbgi4")
+
+[node name="Left Border" type="StaticBody2D" parent="Borders" unique_id=1246519372]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Left Border" unique_id=1120064378]
+shape = SubResource("WorldBoundaryShape2D_jyhfs")
+
+[node name="Blue Border" type="StaticBody2D" parent="Borders" unique_id=53024310]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Blue Border" unique_id=1872098689]
+shape = SubResource("WorldBoundaryShape2D_0wfyh")
+
+[node name="Red Border" type="StaticBody2D" parent="Borders" unique_id=1752198046]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/Red Border" unique_id=1984761920]
+shape = SubResource("WorldBoundaryShape2D_rxxvl")
+
+[node name="UI" parent="." unique_id=1398789593 instance=ExtResource("4_jyhfs")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Ball" parent="." unique_id=854223928 instance=ExtResource("3_sugp2")]
+position = Vector2(575, 214)
+
+[connection signal="hit" from="Red" to="." method="_on_hit"]
+[connection signal="parry_ended" from="Red" to="Ball" method="_on_parry_ended"]
+[connection signal="successful_parry" from="Red" to="Ball" method="_on_successful_parry"]
+[connection signal="hit" from="Blue" to="." method="_on_hit"]
+[connection signal="parry_ended" from="Blue" to="Ball" method="_on_parry_ended"]
+[connection signal="successful_parry" from="Blue" to="Ball" method="_on_successful_parry"]

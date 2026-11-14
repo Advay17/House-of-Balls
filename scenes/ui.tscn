@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://uqnaq2kr7xwg"]
+
+[ext_resource type="Texture2D" uid="uid://og3sliuir7oc" path="res://assets/red_heart.png" id="1_fyqef"]
+[ext_resource type="Script" uid="uid://6188g67ghymj" path="res://scripts/ui.gd" id="1_yev5y"]
+[ext_resource type="Texture2D" uid="uid://es04x60i75fk" path="res://assets/blue_heart.png" id="2_m6e0p"]
+
+[node name="UI" type="Control" unique_id=1398789593]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yev5y")
+
+[node name="Red Hearts" type="HBoxContainer" parent="." unique_id=108031902]
+layout_mode = 1
+offset_right = 1736.0
+offset_bottom = 576.0
+scale = Vector2(0.1, 0.1)
+
+[node name="Health 1" type="TextureRect" parent="Red Hearts" unique_id=1357663713]
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+
+[node name="Health 2" type="TextureRect" parent="Red Hearts" unique_id=2023422028]
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+
+[node name="Health 3" type="TextureRect" parent="Red Hearts" unique_id=1020255285]
+layout_mode = 2
+texture = ExtResource("1_fyqef")
+
+[node name="Blue Hearts" type="HBoxContainer" parent="." unique_id=1827435668]
+layout_mode = 1
+offset_left = 978.0
+offset_right = 2714.0
+offset_bottom = 576.0
+scale = Vector2(0.1, 0.1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Health 1" type="TextureRect" parent="Blue Hearts" unique_id=1612171242]
+layout_mode = 2
+texture = ExtResource("2_m6e0p")
+
+[node name="Health 2" type="TextureRect" parent="Blue Hearts" unique_id=1488565754]
+layout_mode = 2
+texture = ExtResource("2_m6e0p")
+
+[node name="Health 3" type="TextureRect" parent="Blue Hearts" unique_id=1133175942]
+layout_mode = 2
+texture = ExtResource("2_m6e0p")
+
+[node name="Text" type="Label" parent="." unique_id=1429581274]
+visible = false
+layout_mode = 0
+offset_left = 378.0
+offset_top = 244.0
+offset_right = 719.0
+offset_bottom = 381.0
+theme_override_font_sizes/font_size = 100
+text = "Ready?"

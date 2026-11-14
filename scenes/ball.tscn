@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://ddgju88c8qwgf"]
+
+[ext_resource type="Texture2D" uid="uid://cwcifi1v2u38v" path="res://assets/ball.png" id="1_7s4qf"]
+[ext_resource type="Script" uid="uid://c4pm78ia8lxg6" path="res://scripts/ball.gd" id="1_cxlvu"]
+[ext_resource type="Shader" uid="uid://dl3q2sspf2ln8" path="res://character.gdshader" id="1_f7cbr"]
+[ext_resource type="Shader" uid="uid://b321g8j2srquu" path="res://scenes/ball.gdshader" id="3_4dx81"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tbgi4"]
+shader = ExtResource("1_f7cbr")
+shader_parameter/state = 0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lrhn5"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rxxvl"]
+radius = 50.01
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f7cbr"]
+shader = ExtResource("3_4dx81")
+shader_parameter/state = 0
+
+[node name="Ball" type="RigidBody2D" unique_id=854223928]
+material = SubResource("ShaderMaterial_tbgi4")
+collision_layer = 9
+collision_mask = 9
+physics_material_override = SubResource("PhysicsMaterial_lrhn5")
+linear_velocity = Vector2(5, 0)
+script = ExtResource("1_cxlvu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=848393518]
+shape = SubResource("CircleShape2D_rxxvl")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=849757323]
+material = SubResource("ShaderMaterial_f7cbr")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_7s4qf")

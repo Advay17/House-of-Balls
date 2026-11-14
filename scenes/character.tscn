@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://ckwjdcfmiahly"]
+
+[ext_resource type="Texture2D" uid="uid://dqi77kart68l8" path="res://assets/red.png" id="1_glpr6"]
+[ext_resource type="Script" uid="uid://vd5qvmomlnl4" path="res://scripts/character.gd" id="1_wa5vi"]
+[ext_resource type="Texture2D" uid="uid://b3672c0lmcrke" path="res://assets/blue.png" id="3_wfnr8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pjt0s"]
+radius = 173.0
+height = 498.0
+
+[sub_resource type="Shader" id="Shader_lrhn5"]
+code = "shader_type canvas_item;
+uniform int state: hint_enum(\"Normal\", \"Parrying\", \"Cooldown\");
+
+void vertex() {
+	// Called for every vertex the material is visible on.
+}
+
+void fragment() {
+	if(state == 1) { //Parrying
+		COLOR.r = 1.0;
+		COLOR.g = 1.0;
+		COLOR.b = 1.0;
+	}
+	else if(state == 2) { //Cooldown
+		COLOR.r *= 0.5;
+		COLOR.g *= 0.5;
+		COLOR.b *=0.5;
+	}
+	// Called for every pixel the material is visible on.
+}
+
+//void light() {
+//	// Called for every pixel for every light affecting the CanvasItem.
+//	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gs21s"]
+resource_local_to_scene = true
+shader = SubResource("Shader_lrhn5")
+shader_parameter/state = 0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rxxvl"]
+radius = 890.50543
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_my7n2"]
+resource_name = "blue"
+polygon = PackedVector2Array(110, -274, -56, -274, -56, -272.3, -58, -271.2, -58, -256, -90.8, -256, -94, -252.8, -94, -238, -126.8, -238, -130, -234.8, -130, -219.9, -163.1, -218, -166, -218, -166, -165.8, -184, -163.8, -184, -106.2, -166, -104.2, -166, -70.2, -148, -68.2, -148, -40, -234.8, -40, -238, -36.800003, -238, -22, -252.8, -22, -256, -18.799988, -256, -3.7999878, -271.2, -2, -274, -2, -274, 14, -288, 14, -288, 94, -251.2, 94, -248, 90.79999, -248, 57.799988, -230, 55.799988, -230, 22, -196.2, 22, -194.2, 4, -184, 4, -184, 50.200012, -202, 52.200012, -202, 104.20001, -220, 106.20001, -220, 145.9, -166, 147.9, -166, 248, -180.8, 248, -184, 251.20001, -184, 266.2, -202, 268.2, -202, 288, -86, 288, -86, 233.20001, -89.2, 230, -104, 230, -104, 196.20001, -122, 194.20001, -122, 129.9, -32, 128, -32, 112, 68, 112, 68, 248, 53.200012, 248, 50, 251.20001, 50, 266.2, 34.799988, 268, 32, 268, 32, 288, 148, 288, 148, 215.20001, 144.79999, 212, 129.79999, 212, 128, 196.79999, 128, 194, 112, 194, 112, 130, 122.20001, 130, 124, 145.20001, 124, 148.1, 166, 145.9, 166, 17.200012, 162.79999, 14, 147.79999, 14, 146, -1.2000122, 146, -4, 130, -4, 130, -14, 158, -14, 158, 0.7999878, 161.20001, 4, 176, 4, 176, 18.799988, 179.20001, 22, 194.20001, 22, 196.20001, 40, 212.1, 40, 214, 91.100006, 214, 94.100006, 271.09998, 92, 274, 92, 274, 17.200012, 270.8, 14, 255.79999, 14, 254, -1.2000122, 254, -4, 238, -4, 238, -36.800003, 234.79999, -40, 201.79999, -40, 199.79999, -58, 94, -58, 94, -86, 127.79999, -86, 129.79999, -104, 162.79999, -104, 166, -107.2, 166, -140.2, 184, -142.2, 184, -216.8, 180.79999, -220, 166, -220, 166, -234.8, 162.79999, -238, 147.79999, -238, 145.79999, -256, 111.79999, -256, 110, -271.2)
+
+[node name="Character" type="CharacterBody2D" unique_id=1626612688]
+scale = Vector2(0.12, 0.12)
+script = ExtResource("1_wa5vi")
+RED_TEXTURE = ExtResource("1_glpr6")
+BLUE_TEXTURE = ExtResource("3_wfnr8")
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=42687460]
+process_priority = -1
+process_physics_priority = -1
+shape = SubResource("CapsuleShape2D_pjt0s")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1487264143]
+material = SubResource("ShaderMaterial_gs21s")
+texture = ExtResource("3_wfnr8")
+
+[node name="ParryBox" type="Area2D" parent="." unique_id=1626260147]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ParryBox" unique_id=979368587]
+shape = SubResource("CircleShape2D_rxxvl")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=790447931]
+occluder = SubResource("OccluderPolygon2D_my7n2")
+
+[node name="ParryFlashTimer" type="Timer" parent="." unique_id=2124679944]
+process_mode = 3
+wait_time = 0.3
+one_shot = true
+
+[connection signal="timeout" from="ParryFlashTimer" to="." method="_on_parry_flash_timer_timeout"]
