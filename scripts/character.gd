@@ -80,9 +80,6 @@ func parry():
 			body.linear_velocity = Vector2(PARRY_SPEED * cos(char2bod), PARRY_SPEED * sin(char2bod))
 			body.apply_torque_impulse(2000 * sign(cos(char2bod)))
 			
-			inv=true
-			await get_tree().create_timer(0.2).timeout
-			inv=false
 		get_tree().paused=true
 	else:
 		parry_on_cooldown = true
@@ -96,9 +93,13 @@ func _on_parry_flash_timer_timeout() -> void:
 		get_tree().paused = false
 	sprite.material.set_shader_parameter("state", CharacterState.Cooldown if parry_on_cooldown else CharacterState.Normal)
 	parry_ended.emit()
+	inv=true
+	await get_tree().create_timer(0.2).timeout
+	inv=false
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if not inv:
 		hit.emit(TEAM)
+		
 	pass # Replace with function body.
